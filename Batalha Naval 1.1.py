@@ -92,8 +92,6 @@ while linha < nLinhas:
 mapaP1 = matrizDinamica              #Cria o mapa para posicionamento dos navios a partir da matrizDinamica
 mapaP2 = matrizDinamica              #Cria mapa para bombardeamento a partir da matrizDinamica
 
-imprimir_mapa(mapaP1)
-imprimir_mapa(mapaP2)
 
 time.sleep(2)
 print("Prontos?\nVamos comecar...")
@@ -101,7 +99,8 @@ time.sleep(1)
 print("Jogador 2 cubra os olhos, não vale espiar.")
 print("Jogador 1 agora vai inserir os barcos no mapa")
 time.sleep(4)
-while nFragatas < 5 or nCruzadores < 4 or nPortaAvioes < 3:
+
+while nFragatas < 1 or nCruzadores < 0 or nPortaAvioes < 0:
     escolhaNavio = input_caixa_alta("Insira F se deseja inserir uma fragata, C para cruzador ou P para porta avioes")
 
     #Posicionar Fragatas
@@ -155,6 +154,7 @@ while nFragatas < 5 or nCruzadores < 4 or nPortaAvioes < 3:
         nCruzadores += 1
         # imprimir o mapa com o novo barquinho a partir de funcao imprimir_mapa
         imprimir_mapa(mapaP1)
+
     elif escolhaNavio == "C" and nCruzadores >= 4:
         print("Voce ja posicionou todos os 4 Cruzadores")
 
@@ -183,8 +183,10 @@ while nFragatas < 5 or nCruzadores < 4 or nPortaAvioes < 3:
         nPortaAvioes += 1
         # imprimir o mapa com o novo barquinho a partir de funcao imprimir_mapa
         imprimir_mapa(mapaP1)
+
     elif escolhaNavio == "P" and nPortaAvioes >= 3:
         print("Voce ja posicionou todos os 3 Porta-Aviões")
+
     else:
         print("Escolha inválida")
 
@@ -214,7 +216,7 @@ print("Aguarde...")
 time.sleep(4)
 
 mapaP2 = imprimir_mapa_vazio()
-while nFragatas > 0 or nCruzadores > 0 or nPortaAvioes > 0 or dificuldade > 0:
+while (nFragatas > 0 or nCruzadores > 0 or nPortaAvioes > 0) and dificuldade > 0:
     posicaoNavio = array_coordenada(input_caixa_alta("Onde vc acha que estão os navios inimigos?\n" +
                                     "Apenas letra e número exemplo, A12; T1"))
 
@@ -232,6 +234,8 @@ while nFragatas > 0 or nCruzadores > 0 or nPortaAvioes > 0 or dificuldade > 0:
         #verificar qual tipo de navio foi atingido
         if mapaP2[ord(posicaoNavio[0]) - 65][posicaoNavio[1] - 1] == "F ":
             fAtingidas += 1
+            print(fAtingidas)
+            print(nFragatas)
         elif mapaP2[ord(posicaoNavio[0]) - 65][posicaoNavio[1] - 1] == "C ":
             cAtingidos += 1
         elif mapaP2[ord(posicaoNavio[0]) - 65][posicaoNavio[1] - 1] == "P ":
@@ -239,7 +243,7 @@ while nFragatas > 0 or nCruzadores > 0 or nPortaAvioes > 0 or dificuldade > 0:
         imprimir_mapa(mapaP2)
 
         dificuldade = dificuldade - 1
-        print("tentativas restantes: " + dificuldade)
+        print("tentativas restantes: ", dificuldade)
 
     #Nenhum navio atingido
     elif mapaP1[ord(posicaoNavio[0]) - 65][posicaoNavio[1] - 1] == "' " and dificuldade > 0:
@@ -254,10 +258,12 @@ while nFragatas > 0 or nCruzadores > 0 or nPortaAvioes > 0 or dificuldade > 0:
         print("Se vc está lendo isso deu ruim no codigo linha 240")
 
     #descontar navios naufragados e acrescentar pontos
-    if fAtingidas == 2:
+    if fAtingidas >= 2:
         nFragatas = nFragatas - 1
         fAtingidas = 0
         pontos += 10
+        print(fAtingidas)
+        print(nFragatas)
     if cAtingidos == 3:
         nCruzadores = nCruzadores - 1
         cAtingidos = 0
@@ -273,4 +279,4 @@ if dificuldade <= 0 and (nFragatas > 0 or nCruzadores > 0 or nPortaAvioes > 0):
     print("Pontuacão Jogador 2: " + pontos)
 elif dificuldade > 0 and nFragatas <= 0 and nCruzadores <= 0 and nPortaAvioes <= 0:
     print("Jogador 2 afundou todos a frota do Jogador 1\nJogador 2 vence o Jogo")
-    print("Pontuacão Jogador 2: " + pontos)
+    print("Pontuacão Jogador 2: ", pontos)
