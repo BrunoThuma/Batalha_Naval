@@ -92,13 +92,16 @@ while linha < nLinhas:
 mapaP1 = matrizDinamica              #Cria o mapa para posicionamento dos navios a partir da matrizDinamica
 mapaP2 = matrizDinamica              #Cria mapa para bombardeamento a partir da matrizDinamica
 
+imprimir_mapa(mapaP1)
+imprimir_mapa(mapaP2)
+
 time.sleep(2)
 print("Prontos?\nVamos comecar...")
 time.sleep(1)
 print("Jogador 2 cubra os olhos, não vale espiar.")
 print("Jogador 1 agora vai inserir os barcos no mapa")
 time.sleep(4)
-while nFragatas < 1 or nCruzadores < 1 or nPortaAvioes < 1:
+while nFragatas < 5 or nCruzadores < 4 or nPortaAvioes < 3:
     escolhaNavio = input_caixa_alta("Insira F se deseja inserir uma fragata, C para cruzador ou P para porta avioes")
 
     #Posicionar Fragatas
@@ -185,13 +188,10 @@ while nFragatas < 1 or nCruzadores < 1 or nPortaAvioes < 1:
     else:
         print("Escolha inválida")
 
+
 #Parte para Player 2
 print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTodos os navios posicionados, hora do Jogador 2 retornar ao teclado")
 time.sleep(4)
-
-mapaP2 = matrizDinamica
-imprimir_mapa(mapaP2)
-imprimir_mapa(mapaP1)
 
 #Selecionar a dificuldade. Interfere na quantidade de tentativas apenas
 dificuldade = input_caixa_alta("Selecione o nivel de dificuldade: D para difícil; M para médio; F para fácil")
@@ -210,13 +210,15 @@ elif dificuldade == "F":
     dificuldade = 1000
     print("Está com medo de perder?!\nVoce terá mais chances do que lugares para procurar\nBom Jogo")
 
+print("Aguarde...")
+time.sleep(4)
 
+mapaP2 = imprimir_mapa_vazio()
 while nFragatas > 0 or nCruzadores > 0 or nPortaAvioes > 0 or dificuldade > 0:
     posicaoNavio = array_coordenada(input_caixa_alta("Onde vc acha que estão os navios inimigos?\n" +
                                     "Apenas letra e número exemplo, A12; T1"))
-    print(posicaoNavio)
-    imprimir_mapa(mapaP2)
-    imprimir_mapa(mapaP1)
+
+    #Validacão da jogada de P2
     while len(posicaoNavio[0]) != 1 or posicaoNavio[0] > "T" or posicaoNavio[1] > 20 or \
                 posicaoNavio[1] <= 0 or mapaP2[ord(posicaoNavio[0]) - 65][posicaoNavio[1] - 1] != "' ":
         print("Opcão invalida ou ja selecionada anteriormente")
@@ -237,6 +239,7 @@ while nFragatas > 0 or nCruzadores > 0 or nPortaAvioes > 0 or dificuldade > 0:
         imprimir_mapa(mapaP2)
 
         dificuldade = dificuldade - 1
+        print("tentativas restantes: " + dificuldade)
 
     #Nenhum navio atingido
     elif mapaP1[ord(posicaoNavio[0]) - 65][posicaoNavio[1] - 1] == "' " and dificuldade > 0:
